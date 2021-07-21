@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id "com.github.logicfan.gradle.shadow.json-transformer" version "1.0.1"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'com.google.code.gson:gson:2.8.7'
+    // https://mvnrepository.com/artifact/org.json/json
+    implementation group: 'org.json', name: 'json', version: '20210307'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+// https://mvnrepository.com/artifact/org.bitbucket.cowwoc/ToJsonString
+    implementation group: 'org.bitbucket.cowwoc', name: 'ToJsonString', version: '1.2'
+    // https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+
+}
+
+test {
+    useJUnitPlatform()
+}
+
+javafx {
+    version = '16'
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}
+
+mainClassName = 'ucf.assignments.HomePage'
