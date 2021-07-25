@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -30,17 +31,18 @@
       </MenuBar>
       <TextField fx:id="searchBox" layoutX="8.0" layoutY="27.0" prefHeight="25.0" prefWidth="261.0" />
       <Button layoutX="269.0" layoutY="27.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
-      <TableView layoutX="1.0" layoutY="52.0" prefHeight="245.0" prefWidth="600.0">
+      <TableView fx:id="itemTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="245.0" prefWidth="600.0" style="-fx-alignment: CENTER;">
          <columns>
-            <TableColumn prefWidth="171.0" text="Serial Number" />
-            <TableColumn prefWidth="341.0" text="Name" />
-            <TableColumn prefWidth="87.0" text="Value" />
+            <TableColumn fx:id="moneyColumn" onEditCommit="#valueEditCommitted" prefWidth="87.0" style="-fx-alignment: CENTER;" text="Value" />
+            <TableColumn fx:id="serialNumberColumn" onEditCommit="#serialNumberEditCommitted" prefWidth="171.0" style="-fx-alignment: CENTER;" text="Serial Number" />
+            <TableColumn fx:id="nameColumn" onEditCommit="#nameEditCommitted" prefWidth="341.0" style="-fx-alignment: CENTER;" text="Name" />
          </columns>
       </TableView>
-      <TextField fx:id="serialNumberText" layoutX="66.0" layoutY="297.0" prefHeight="25.0" prefWidth="145.0" promptText="Add Serial Number" />
-      <TextField fx:id="nameText" layoutX="210.0" layoutY="297.0" prefHeight="25.0" prefWidth="183.0" promptText="Add Name" />
-      <TextField fx:id="moneyText" layoutX="393.0" layoutY="297.0" prefHeight="25.0" prefWidth="116.0" promptText="Add Value " />
+      <TextField fx:id="serialNumberText" layoutX="181.0" layoutY="297.0" prefHeight="25.0" prefWidth="145.0" promptText="Add Serial Number" />
+      <TextField fx:id="nameText" layoutX="326.0" layoutY="297.0" prefHeight="25.0" prefWidth="183.0" promptText="Add Name" />
+      <TextField fx:id="moneyText" layoutX="66.0" layoutY="297.0" prefHeight="25.0" prefWidth="116.0" promptText="Add Value " />
       <Button layoutX="509.0" layoutY="297.0" mnemonicParsing="false" onAction="#addButtonClicked" text="Add" />
       <Button layoutX="540.0" layoutY="27.0" mnemonicParsing="false" onAction="#removeButtonClicked" text="-" />
+      <Label fx:id="errorMsg" layoutX="66.0" layoutY="349.0" />
    </children>
 </AnchorPane>
