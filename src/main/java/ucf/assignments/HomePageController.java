@@ -54,8 +54,8 @@ public class HomePageController implements Initializable {
     private TableColumn<Item, String> moneyColumn;
 
     ObservableList<Item> observableList = FXCollections.observableArrayList(
-            new Item("Sam", "1234567890", "$45.17"),
-            new Item("Laila", "abcdefghi0", "$67.80")
+            //new Item("Sam", "1234567890", "$45.17"),
+            //new Item("Laila", "abcdefghi0", "$67.80")
     );
 
     List<String> serialNumbersList = new ArrayList<String>();
@@ -174,6 +174,7 @@ public class HomePageController implements Initializable {
         makeFiles.saveFile(saveItems);
     }
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
@@ -187,7 +188,10 @@ public class HomePageController implements Initializable {
         editTable();
 
         Finder findItem = new Finder();
-        findItem.search(observableList, searchBox, itemTable);
+
+        ObservableList<Item> copy = FXCollections.observableArrayList();
+        copy.addAll(observableList);
+        findItem.search(copy, searchBox, itemTable);
     }
 
     private void editTable() {

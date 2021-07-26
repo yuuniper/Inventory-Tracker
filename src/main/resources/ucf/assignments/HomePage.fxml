@@ -29,8 +29,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <TextField fx:id="searchBox" layoutX="8.0" layoutY="27.0" prefHeight="25.0" prefWidth="261.0" />
-      <Button layoutX="269.0" layoutY="27.0" mnemonicParsing="false" onAction="#searchButtonClicked" text="Search" />
+      <TextField fx:id="searchBox" layoutX="89.0" layoutY="27.0" prefHeight="25.0" prefWidth="261.0" />
       <TableView fx:id="itemTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="245.0" prefWidth="600.0" style="-fx-alignment: CENTER;">
          <columns>
             <TableColumn fx:id="moneyColumn" onEditCommit="#valueEditCommitted" prefWidth="87.0" style="-fx-alignment: CENTER;" text="Value" />
@@ -44,5 +43,6 @@
       <Button layoutX="509.0" layoutY="297.0" mnemonicParsing="false" onAction="#addButtonClicked" text="Add" />
       <Button layoutX="540.0" layoutY="27.0" mnemonicParsing="false" onAction="#removeButtonClicked" text="-" />
       <Label fx:id="errorMsg" layoutX="66.0" layoutY="349.0" />
+      <Label layoutX="370.0" layoutY="31.0" text="Search" />
    </children>
 </AnchorPane>

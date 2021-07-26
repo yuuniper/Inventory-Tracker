@@ -41,7 +41,7 @@ public class FileManager {
             if (fileType.equals("txt")){
                 saveAsTSV(file, saveItems);
             } else if (fileType.equals("html")){
-                saveAsHTML(file, saveItems);
+                String testString = saveAsHTML(file, saveItems);
             } else if(fileType.equals("json")){
                 saveAsJSON(file, saveItems);
             } else{
@@ -73,7 +73,7 @@ public class FileManager {
         }
     }
 
-    private void saveAsHTML(File file, List<Item> saveItems) {
+    public String saveAsHTML(File file, List<Item> saveItems) {
         String HTMLBegin = "<!DOCTYPE html>"
                 + "<html>"
                 + "<head>"
@@ -89,6 +89,7 @@ public class FileManager {
         String HTMLEnd = "</table>"
                 + "</body>"
                 + "</html>";
+        String htmlTestingString = HTMLBegin;
         try (FileWriter writer = new FileWriter(file)) {
             // Write beginning tags
             writer.write(HTMLBegin + "\n");
@@ -102,11 +103,14 @@ public class FileManager {
                 String tableRow = "<tr>" + value  + serialNumber + name + "</tr>\n";
                 // Write to file
                 writer.write(tableRow);
+                htmlTestingString.concat(tableRow);
             }
             writer.write(HTMLEnd);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return htmlTestingString + HTMLEnd;
     }
 
 
