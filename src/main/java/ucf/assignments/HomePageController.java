@@ -54,10 +54,12 @@ public class HomePageController implements Initializable {
     private TableColumn<Item, String> moneyColumn;
 
     ObservableList<Item> observableList = FXCollections.observableArrayList(
-            new Item("Sam", "1234567890", "$45.17")
+            new Item("Sam", "1234567890", "$45.17"),
+            new Item("Laila", "abcdefghi0", "$67.80")
     );
 
     List<String> serialNumbersList = new ArrayList<String>();
+    List<Item> itemsList = new ArrayList<>();
 
     @FXML
     void addButtonClicked(ActionEvent event) {
@@ -138,17 +140,38 @@ public class HomePageController implements Initializable {
 
     @FXML
     void loadButtonClicked(ActionEvent event) {
+        FileManager makeFiles = new FileManager();
+        List<Item> loadedItems = new ArrayList<>();
+
+        loadedItems = makeFiles.loadFile();
+
+        // Load into serial number list
+        for(Item i : loadedItems){
+            serialNumbersList.add(i.getSerialNumber());
+        }
+
+        // Display to table
+        observableList.clear();
+        observableList.addAll(loadedItems);
 
     }
 
     @FXML
     void removeButtonClicked(ActionEvent event) {
+        itemTable.getItems().removeAll(itemTable.getSelectionModel().getSelectedItem());
+        removeItem(itemTable.getSelectionModel().getSelectedItem());
+    }
 
+    public void removeItem(Item selectedItem) {
+        itemsList.remove(selectedItem);
     }
 
     @FXML
     void saveButtonClicked(ActionEvent event) {
-
+        FileManager makeFiles = new FileManager();
+        List<Item> saveItems = new ArrayList<>();
+        saveItems.addAll(observableList);
+        makeFiles.saveFile(saveItems);
     }
 
     @FXML
@@ -158,26 +181,23 @@ public class HomePageController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        //itemTable = new TableView<Item>();
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-        //nameColumn = new TableColumn<Item, String>("name");
-        serialNumberColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("serialNumber"));
-        //serialNumberColumn = new TableColumn<Item, String>("serialNumber");
-        moneyColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("money"));
-        //moneyColumn = new TableColumn<Item, String>("money");
 
-        //itemTable.getColumns().addAll(nameColumn, serialNumberColumn, moneyColumn);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        serialNumberColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("serialNumber"));
+        moneyColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("money"));
+
         itemTable.setItems(observableList);
 
         itemTable.setEditable(true);
         editTable();
+
+        Finder findItem = new Finder();
+        findItem.search(observableList, searchBox);
     }
 
     private void editTable() {
         //Set properties for the column to be edited
         nameColumn.setCellFactory(TextFieldTableCell.forTableColumn());
-        //nameColumn.setCellValueFactory(TextFieldTableCell.forTableColumn());
-        //nameColumn.setOnEditCommit(e->(e.getTableView().getItems().get(e.getTablePosition().getRow().setName(e.getNewValue()))));
         serialNumberColumn.setCellFactory(TextFieldTableCell.forTableColumn());
         moneyColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     }
@@ -188,21 +208,15 @@ public class HomePageController implements Initializable {
         errorMsg.setText("");
         // Get Item
         Item item = itemTable.getSelectionModel().getSelectedItem();
+        // Store Original Index
+        int originalIndex = itemsList.indexOf(item);
 
+        boolean isValid = editSerialNumber(item.getName(), item.getMoney(), itemStringCellEditEvent.getNewValue(),
+                serialNumbersList, item, item.getSerialNumber());
 
-        boolean isValid = editSerialNumber(item.getName(), item.getMoney(), itemStringCellEditEvent.getNewValue(), serialNumbersList, item, item.getSerialNumber());
-        /*// Validate input
-        boolean isValid = validateInput(item.getName(), item.getMoney(), itemStringCellEditEvent.getNewValue(), serialNumbersList);
+        // Replace original item with edited item in itemsList
+        itemsList.set(originalIndex, item);
 
-        if (isValid){
-            // Set serial number to new value
-            item.setSerialNumber(itemStringCellEditEvent.getNewValue());
-        } else{
-            // Don't save new value, revert back to original (valid) value
-            errorMsg.setText("Invalid Serial Number");
-            itemTable.refresh();
-        }*/
-        //System.out.println(item.getSerialNumber());
         if (!isValid){
             // Don't save new value, revert back to original (valid) value
             errorMsg.setText("Invalid Serial Number");
@@ -222,6 +236,7 @@ public class HomePageController implements Initializable {
             // Remove original serial in Serial Number list and replace with new serial list
             serialNumbersList.add(serialNumberEdited);
             serialNumbersList.remove(originalSerialNumber);
+
         }
         return isValid;
     }
@@ -232,21 +247,17 @@ public class HomePageController implements Initializable {
         errorMsg.setText("");
         // Select Item
         Item item = itemTable.getSelectionModel().getSelectedItem();
-        // Validate input
-        boolean isValid = editValue(item.getName(), itemStringCellEditEvent.getNewValue(), item.getSerialNumber(), serialNumbersList, item);
 
-        /*// Format money
-        String formattedMoney = formatMoney(itemStringCellEditEvent.getNewValue());
+        // Store Original Index
+        int originalIndex = itemsList.indexOf(item);
 
-        if (isValid){
-            // Set value number to new value
-            item.setMoney(formattedMoney);
-        } else{
-            // Don't save new value, revert back to original (valid) value
-            errorMsg.setText("Invalid Value");
-        }
-        // Refresh Display
-        itemTable.refresh();*/
+        // Edit Value
+        boolean isValid = editValue(item.getName(), itemStringCellEditEvent.getNewValue(),
+                item.getSerialNumber(), serialNumbersList, item);
+
+        // Replace original item with edited item in itemsList
+        itemsList.set(originalIndex, item);
+
         if (!isValid){
             // Don't save new value, revert back to original (valid) value
             errorMsg.setText("Invalid Value");
@@ -278,18 +289,16 @@ public class HomePageController implements Initializable {
         // Select Item
         Item item = itemTable.getSelectionModel().getSelectedItem();
 
-        boolean isValid = editName(itemStringCellEditEvent.getNewValue(), item.getMoney(), item.getSerialNumber(), serialNumbersList, item);
-        // Validate input
-       /* boolean isValid = validateInput(itemStringCellEditEvent.getNewValue(), item.getMoney(), item.getSerialNumber(), serialNumbersList);
+        // Store Original Index
+        int originalIndex = itemsList.indexOf(item);
 
-        if (isValid){
-            // Set name to new value
-            item.setName(itemStringCellEditEvent.getNewValue());
-        } else{
-            // Don't save new value, revert back to original (valid) value
-            errorMsg.setText("Invalid Name");
-            itemTable.refresh();
-        }*/
+        // Edit name
+        boolean isValid = editName(itemStringCellEditEvent.getNewValue(), item.getMoney(),
+                item.getSerialNumber(), serialNumbersList, item);
+
+        // Replace original item with edited item in itemsList
+        itemsList.set(originalIndex, item);
+
         if (!isValid){
             // Don't save new value, revert back to original (valid) value
             errorMsg.setText("Invalid Name");
