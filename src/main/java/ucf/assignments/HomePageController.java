@@ -174,11 +174,6 @@ public class HomePageController implements Initializable {
         makeFiles.saveFile(saveItems);
     }
 
-    @FXML
-    void searchButtonClicked(ActionEvent event) {
-
-    }
-
     @Override
     public void initialize(URL location, ResourceBundle resources){
 
@@ -192,7 +187,7 @@ public class HomePageController implements Initializable {
         editTable();
 
         Finder findItem = new Finder();
-        findItem.search(observableList, searchBox);
+        findItem.search(observableList, searchBox, itemTable);
     }
 
     private void editTable() {
