@@ -13,54 +13,72 @@ Class HomePageController{
 TextField searchBox
 TextField serialNumberText
 TextField nameText
-TextField valueText
-TextField dueDateBox;
+TextField moneyText
+Label errorMsg;
+TableView<Item> itemTable;
+TableColumn<Item, String> serialNumberColumn;
+TableColumn<Item, String> nameColumn;
+TableColumn<Item, String> moneyColumn;
+ObservableList<Item> observableList
+List<String> serialNumbersList;
+List<Item> itemsList;
 
 
-addItemToJsonFile()
-addItemClicked()
-removeItemClicked()
-completedItemsClicked()
-clearListClicked()
-clearListView()
-removeList()
-incompleteItemsClicked()
+addButtonClicked()
+formatMoney()
+clearTextBoxes()
+validateInput()
+loadButtonClicked()
 removeButtonClicked()
- removeFromJsonFile()
-editButtonClicked()
-selectItemClicked()
-displaySelectedItem()
+saveButtonClicked()
 initialize()
-addPreviousItems()
-viewButtonClicked()
+editTable()
+serialNumberEditCommitted()
+editSerialNumber()
+valueEditCommitted()
+ editValue()
+ nameEditCommitted()
+ editName()
 }
 
-Class AddItem{
- getItem()
- getJsonArray()
- addToFile()
- getDirectory()
+
+Class Finder{
+search()
+searchTable()
 }
 
-Class MyListView{
-gotoView()
-displayItems()
-displayAllItmes()
-sort()
-getSort()
+Class Item{
+name
+serialNumber
+money
+getName()
+setName()
+getSerialNumber()
+setSerialNumber()
+getMoney()
+setMoney()
 }
 
-Class FileMaker{
+Class FileManager{
+List<Item> loadedItems
+List<Item> SavedItems
+saveFile()
+saveAsJSON()
+saveAsHTML()
+saveAsTSV()
+getFileType()
 loadFile()
-parseJSONData()
-saveList()
-saveSystem()
+loadHTML()
+gethtmlString()
+loadTSV()
+parseTSVData()
+loadJSON()
 }
 JavaFx.Application <|-- HomePage
 
 
-HomePage--HomePageController
-AddItem--HomePageController
-MyListView--HomePageController
-FileMaker--HomePageController
+Finder--HomePageController
+Item--HomePageController
+FileManager--HomePageController
+HomePageController--HomePage
 @enduml

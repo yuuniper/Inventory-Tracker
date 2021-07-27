@@ -7,6 +7,7 @@
 
 package ucf.assignments;
 
+import org.json.JSONArray;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -27,69 +28,67 @@ class HomePageControllerTest {
     static Stream<Arguments> generateDataForCorrectInputs(){
 
         return Stream.of(
-                Arguments.of("Oreos", "$3.88", "1234567890", serialNumbersList),
-                Arguments.of("Li", "45.90873", "asx789jkq0", serialNumbersList)
+                Arguments.of("Oreos", "$3.88", "1234567890"),
+                Arguments.of("Li", "45.90873", "asx789jkq0")
         );
     }
 
     // Check Addition input - correct inputs
     @ParameterizedTest
     @MethodSource("generateDataForCorrectInputs")
-    void validateInput_is_true(String name, String money, String serialNumber, List<String> serialNumbersList) {
+    void validateInput_is_true(String name, String money, String serialNumber) {
         HomePageController test = new HomePageController();
-        assertTrue(test.validateInput(name, money, serialNumber, serialNumbersList));
+        assertTrue(test.testValidateInput(name, money, serialNumber));
     }
 
    // Parameters for validate_if_input_is_false
     static Stream<Arguments> generateDataForIncorrectInputs(){
 
         return Stream.of(
-                Arguments.of("Oreos", "$3.88.00", "1234567890", serialNumbersList),
-                Arguments.of("Li", "haha", "asx789jkq0", serialNumbersList),
-                Arguments.of("R", "$45.00", "asx789jkq0", serialNumbersList),
-                Arguments.of("Lan", "46", "asx789jkq!", serialNumbersList),
-                Arguments.of("Li", "$48.098", "asx789j", serialNumbersList),
-                Arguments.of("Lucky", "$45.90", "heatwaves7", serialNumbersList)
+                Arguments.of("Oreos", "$3.88.00", "1234567890"),
+                Arguments.of("Li", "haha", "asx789jkq0" ),
+                Arguments.of("R", "$45.00", "asx789jkq0"),
+                Arguments.of("Lan", "46", "asx789jkq!"),
+                Arguments.of("Li", "$48.098", "asx789j")
         );
     }
 
     // Check Addition input - incorrect inputs
     @ParameterizedTest
     @MethodSource("generateDataForIncorrectInputs")
-    void validateInput_is_false(String name, String money, String serialNumber, List<String> serialNumbersList) {
+    void validateInput_is_false(String name, String money, String serialNumber) {
         HomePageController test = new HomePageController();
-       serialNumbersList.add("heatwaves7");
-        assertFalse(test.validateInput(name, money, serialNumber, serialNumbersList));
+        assertFalse(test.testValidateInput(name, money, serialNumber));
     }
 
     // Parameters for editNameTrue
     static Stream<Arguments> generateDataForCorrectEditNameInputs(){
 
         return Stream.of(
-                Arguments.of("Lettuce", "$3.88", "1234567890", serialNumbersList, test1)
+                Arguments.of("Lettuce", "$3.88", "1234567890", test1)
         );
     }
     @ParameterizedTest
     @MethodSource("generateDataForCorrectEditNameInputs")
-    void editNameTrue(String nameEdited, String money, String serialNumber, List<String> serialNumbersList, Item item) {
+    void editNameTrue(String nameEdited, String money, String serialNumber, Item item) {
         HomePageController test = new HomePageController();
-        assertTrue(test.editName(nameEdited, item.getMoney(),
-                item.getSerialNumber(), serialNumbersList, item));
+        assertTrue(test.testEditName(nameEdited, item.getMoney(),
+                item.getSerialNumber(), item));
     }
 
     // Parameters for editNameFalse
     static Stream<Arguments> generateDataForIncorrectEditNameInputs(){
 
         return Stream.of(
-                Arguments.of("O", "$3.88", "1234567890", serialNumbersList, test1)
+                Arguments.of("O", "$3.88", "1234567890", test1)
         );
     }
     @ParameterizedTest
     @MethodSource("generateDataForIncorrectEditNameInputs")
-    void editNameFalse(String nameEdited, String money, String serialNumber, List<String> serialNumbersList, Item item) {
+    void editNameFalse(String nameEdited, String money, String serialNumber, Item item) {
         HomePageController test = new HomePageController();
-        assertFalse(test.editName(nameEdited, item.getMoney(),
-                item.getSerialNumber(), serialNumbersList, item));
+        assertFalse(test.testEditName(nameEdited, item.getMoney(),
+                item.getSerialNumber(), item));
     }
 
     // Parameters for editSerialNumberTrue
@@ -104,7 +103,7 @@ class HomePageControllerTest {
     void editSerialNumberTrue(String name, String money, String serialNumberEdited, List<String> serialNumbersList,
                               Item item, String originalSerialNumber) {
         HomePageController test = new HomePageController();
-        assertTrue(test.editSerialNumber(name, item.getMoney(), serialNumberEdited, serialNumbersList,
+        assertTrue(test.testEditSerialNumber(name, item.getMoney(), serialNumberEdited, serialNumbersList,
                 item, originalSerialNumber));
     }
 
@@ -115,8 +114,6 @@ class HomePageControllerTest {
                 Arguments.of("Oreos", "$3.88", "applestick!", serialNumbersList, test1, test1.getSerialNumber()),
                 Arguments.of("Oreos", "$3.88", "appl@stic!", serialNumbersList, test1, test1.getSerialNumber()),
                 Arguments.of("Oreos", "$3.88", "applestic", serialNumbersList, test1, test1.getSerialNumber())
-                //Arguments.of("Oreos", "$3.88", "1234567890", serialNumbersList, test1, test1.getSerialNumber())
-
         );
     }
     @ParameterizedTest
@@ -124,7 +121,31 @@ class HomePageControllerTest {
     void editSerialNumberFalse(String name, String money, String serialNumberEdited, List<String> serialNumbersList,
                                Item item,  String originalSerialNumber) {
         HomePageController test = new HomePageController();
-        assertFalse(test.editSerialNumber(name, item.getMoney(),
+        assertFalse(test.testEditSerialNumber(name, item.getMoney(),
                 serialNumberEdited, serialNumbersList, item, originalSerialNumber));
+    }
+
+    @Test
+    void checkDuplicateSerialNumber() {
+        HomePageController test = new HomePageController();
+        serialNumbersList.add("heatwaves7");
+        Item testNewItem = new Item("Lucky", "heatwaves7", "$45.90");
+        test.checkSerialNumberDuplicate(serialNumbersList, testNewItem.getSerialNumber());
+
+    }
+
+    // Parameters for editValueTrue
+    static Stream<Arguments> generateDataForCorrectEditValueInputs(){
+
+        return Stream.of(
+                Arguments.of("Lettuce", "$4.58", "1234567890", test1)
+        );
+    }
+    @ParameterizedTest
+    @MethodSource("generateDataForCorrectEditValueInputs")
+    void editValueTrue(String name, String moneyEdited, String serialNumber, Item item) {
+        HomePageController test = new HomePageController();
+        assertTrue(test.testEditValue(name, moneyEdited,
+                item.getSerialNumber(), item));
     }
 }

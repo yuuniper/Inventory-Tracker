@@ -18,7 +18,7 @@ public class Finder {
         // The search works
         // But because it's a filteredList (cannot modify values)
         // It won't let you add anything
-        /*FilteredList<Item> filteredList = new FilteredList<>(observableList, b-> true);
+        FilteredList<Item> filteredList = new FilteredList<>(observableList, b-> true);
 
         searchBox.textProperty().addListener((observable, oldValue, newValue) ->  {
             filteredList.setPredicate(item -> {
@@ -51,6 +51,6 @@ public class Finder {
             return true; // Filter matches value.
         } else {
             return false; // Does not match.
-        }*/
+        }
     }
 }

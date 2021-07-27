@@ -17,7 +17,7 @@
   ~  */
   -->
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="648.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ucf.assignments.HomePageController">
    <children>
       <MenuBar layoutX="1.0" layoutY="2.0" prefHeight="25.0" prefWidth="600.0">
          <menus>
@@ -29,20 +29,23 @@
             </Menu>
          </menus>
       </MenuBar>
-      <TextField fx:id="searchBox" layoutX="89.0" layoutY="27.0" prefHeight="25.0" prefWidth="261.0" />
-      <TableView fx:id="itemTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="245.0" prefWidth="600.0" style="-fx-alignment: CENTER;">
+      <TextField fx:id="searchBox" layoutX="89.0" layoutY="27.0" onKeyPressed="#searchInputted" prefHeight="25.0" prefWidth="261.0" />
+      <TableView fx:id="itemTable" editable="true" layoutX="1.0" layoutY="52.0" prefHeight="290.0" prefWidth="452.0" style="-fx-alignment: CENTER;">
          <columns>
             <TableColumn fx:id="moneyColumn" onEditCommit="#valueEditCommitted" prefWidth="87.0" style="-fx-alignment: CENTER;" text="Value" />
             <TableColumn fx:id="serialNumberColumn" onEditCommit="#serialNumberEditCommitted" prefWidth="171.0" style="-fx-alignment: CENTER;" text="Serial Number" />
-            <TableColumn fx:id="nameColumn" onEditCommit="#nameEditCommitted" prefWidth="341.0" style="-fx-alignment: CENTER;" text="Name" />
+            <TableColumn fx:id="nameColumn" onEditCommit="#nameEditCommitted" prefWidth="197.0" style="-fx-alignment: CENTER;" text="Name" />
          </columns>
       </TableView>
-      <TextField fx:id="serialNumberText" layoutX="181.0" layoutY="297.0" prefHeight="25.0" prefWidth="145.0" promptText="Add Serial Number" />
-      <TextField fx:id="nameText" layoutX="326.0" layoutY="297.0" prefHeight="25.0" prefWidth="183.0" promptText="Add Name" />
-      <TextField fx:id="moneyText" layoutX="66.0" layoutY="297.0" prefHeight="25.0" prefWidth="116.0" promptText="Add Value " />
-      <Button layoutX="509.0" layoutY="297.0" mnemonicParsing="false" onAction="#addButtonClicked" text="Add" />
-      <Button layoutX="540.0" layoutY="27.0" mnemonicParsing="false" onAction="#removeButtonClicked" text="-" />
-      <Label fx:id="errorMsg" layoutX="66.0" layoutY="349.0" />
+      <TextField fx:id="serialNumberText" layoutX="468.0" layoutY="147.0" prefHeight="25.0" prefWidth="132.0" promptText="Add Serial Number" />
+      <TextField fx:id="nameText" layoutX="468.0" layoutY="210.0" prefHeight="25.0" prefWidth="132.0" promptText="Add Name" />
+      <TextField fx:id="moneyText" layoutX="468.0" layoutY="87.0" prefHeight="25.0" prefWidth="132.0" promptText="Add Value " />
+      <Button layoutX="468.0" layoutY="287.0" mnemonicParsing="false" onAction="#addButtonClicked" text="+" />
+      <Button layoutX="513.0" layoutY="287.0" mnemonicParsing="false" onAction="#removeButtonClicked" text="-" />
+      <Label fx:id="errorMsg" layoutX="468.0" layoutY="325.0" prefHeight="17.0" prefWidth="0.0" />
       <Label layoutX="370.0" layoutY="31.0" text="Search" />
+      <Label fx:id="addValueError" layoutX="454.0" layoutY="122.0" />
+      <Label fx:id="serialNumberError" layoutX="455.0" layoutY="180.0" />
+      <Label fx:id="nameError" layoutX="454.0" layoutY="248.0" />
    </children>
 </AnchorPane>
