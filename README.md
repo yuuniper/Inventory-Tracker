@@ -1,6 +1,6 @@
 To add an item:
 Enter a monetary value, serial number, and name into the according fields.
-Press "Add"
+Press "+"
 If item is not valid or serial number has been duplicated, an error message will appear. 
 
 To edit any item:
