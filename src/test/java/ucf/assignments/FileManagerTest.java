@@ -27,7 +27,7 @@ class FileManagerTest {
         // Add items to itemsList (helper function)
         itemsList = itemsListAdd();
         // Get Directory of Test file
-        String directory = createDirectory("\\save\\CreateHTML.html");
+        String directory = createDirectory("/save/CreateHTML.html");
         // Create file
         File testFile = new File(directory);
         boolean isValid = testFile.createNewFile();
@@ -59,7 +59,7 @@ class FileManagerTest {
         itemsList = itemsListAdd();
 
         // Get Directory of Test file
-        String directory = createDirectory("\\save\\CreateTSV.txt");
+        String directory = createDirectory("/save/CreateTSV.txt");
         // Create file
         File testFile = new File(directory);
 
@@ -82,7 +82,7 @@ class FileManagerTest {
         itemsList = itemsListAdd();
 
         // Get Directory of Test file
-        String directory = createDirectory("\\save\\CreateJSON.json");
+        String directory = createDirectory("/save/CreateJSON.json");
         // Create file
         File testFile = new File(directory);
 
@@ -98,7 +98,7 @@ class FileManagerTest {
     private String createDirectory(String endPath) {
         String userPath = System.getProperty("user.dir");
 
-        return userPath +"\\src\\test\\resources" + endPath;
+        return userPath +"/src/test/resources" + endPath;
     }
 
     private void iterateListItems(List<Item> loadedItems, List<String> loadedNames, List<String> loadedSerialNumbers, List<String> loadedValues) {
@@ -117,7 +117,7 @@ class FileManagerTest {
         List<String> loadedSerialNumbers = new ArrayList<>();
         List<String> loadedValues = new ArrayList<>();
         // Get Directory of Test file
-        String directory = createDirectory("\\load\\TestFileHTML.html");
+        String directory = createDirectory("/load/TestFileHTML.html");
         // Test loadHTML
         loadedItems = test.loadHTML(directory);
 
@@ -138,7 +138,7 @@ class FileManagerTest {
         List<String> loadedSerialNumbers = new ArrayList<>();
         List<String> loadedValues = new ArrayList<>();
         // Get Directory of Test file
-        String directory = createDirectory("\\load\\TestFileJSON.json");
+        String directory = createDirectory("/load/TestFileJSON.json");
         // Test loadJSON
         loadedItems = test.loadJSON(directory);
 
@@ -159,7 +159,7 @@ class FileManagerTest {
         List<String> loadedSerialNumbers = new ArrayList<>();
         List<String> loadedValues = new ArrayList<>();
         // Get Directory of Test file
-        String directory = createDirectory("\\load\\TestFileTSV.txt");
+        String directory = createDirectory("/load/TestFileTSV.txt");
         // Test loadTSV
         loadedItems = test.loadTSV(directory);
 
